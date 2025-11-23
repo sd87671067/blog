@@ -8,26 +8,26 @@ tags:
 ---
 
 # Debian/Ubuntu Singbox傻瓜一键安装命令
-    bash <(curl -fsSL https://raw.githubusercontent.com/sd87671067/singbox-install/main/install.sh)
-
+```
+bash <(curl -fsSL https://raw.githubusercontent.com/sd87671067/singbox-install/main/install.sh)
+```
 # singbox 重启
 
-    systemctl restart sing-box
+```
+systemctl restart sing-box
+```
 
 ## singbox 实时日志
 
-    journalctl -u sing-box --output cat -f
+```
+journalctl -u sing-box --output cat -f
+```
 
 ## singbox状态
 
-    systemctl status sing-box.service
+```
+systemctl status sing-box.service
+```
 
-## singbox生成UUID
-
-    sing-box generate uuid
-
-## singbox生成公钥私钥
-
-    sing-box generate reality-keypair
 
 # SSH连接上VPS,粘贴傻瓜一键配置命令。回车，回车，回车。最后复制生成出来的链接导入到shadowrocket或者v2rayn客户端里面。

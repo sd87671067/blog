@@ -293,3 +293,99 @@ article blockquote {
   color: var(--text-secondary);
   font-style: italic;
 }
+
+/* 确保代码块变量存在 */
+:root {
+  --code-bg: #f6f8fa;
+  --code-header-bg: #f0f2f5;
+}
+
+.dark {
+  --code-bg: #161b22;
+  --code-header-bg: #0d1117;
+}
+
+/* 代码块基础样式 */
+article pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+
+article pre code {
+  font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+
+/* 复制按钮样式 */
+.copy-code-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 确保代码块变量存在 */
+:root {
+  --code-bg: #f6f8fa;
+  --code-header-bg: #f0f2f5;
+}
+
+.dark {
+  --code-bg: #161b22;
+  --code-header-bg: #0d1117;
+}
+
+/* 代码块基础样式 */
+article pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+
+article pre code {
+  font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--text-primary) !important;
+  background: transparent !important;
+}
+
+/* 复制按钮样式 */
+.copy-code-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 代码块强制样式 - 覆盖主题 */
+.code-block-wrapper {
+  margin: 24px 0 !important;
+}
+
+.code-block-wrapper * {
+  box-sizing: border-box;
+}
+
+/* 确保代码块文字在任何主题下都可见 */
+pre code {
+  color: #c9d1d9 !important;
+  background: #0d1117 !important;
+}
+
+/* 行内代码 */
+:root code:not(pre code) {
+  background: #f6f8fa !important;
+  color: #24292f !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.dark code:not(pre code) {
+  background: #161b22 !important;
+  color: #c9d1d9 !important;
+}

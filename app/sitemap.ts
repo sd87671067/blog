@@ -1,55 +1,35 @@
-import { MetadataRoute } from 'next';
-import { getAllPosts, getAllTags, getAllCategories } from '@/lib/posts';
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+import { getAllPosts } from '@/lib/posts'
+import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getAllPosts();
-  const tags = await getAllTags();
-  const categories = await getAllCategories();
-
-  const postUrls = posts.map((post) => ({
-    url: `${SITE_URL}/posts/${post.slug}`,
+  const posts = await getAllPosts()
+  
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `https://dlmn.lol/posts/${post.slug}`,
     lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
+    changeFrequency: 'weekly',
     priority: 0.8,
-  }));
-
-  const tagUrls = Object.keys(tags).map((tag) => ({
-    url: `${SITE_URL}/tags/${tag}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }));
-
-  const categoryUrls = Object.keys(categories).map((category) => ({
-    url: `${SITE_URL}/categories/${category}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }));
+  }))
 
   return [
     {
-      url: SITE_URL,
+      url: 'https://dlmn.lol',
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: `${SITE_URL}/posts`,
+      url: 'https://dlmn.lol/posts',
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/tags`,
+      url: 'https://dlmn.lol/tags',
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     },
-    ...postUrls,
-    ...tagUrls,
-    ...categoryUrls,
-  ];
+    ...postEntries,
+  ]
 }
