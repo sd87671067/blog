@@ -107,7 +107,7 @@ export default function Footer() {
   return (
     <footer style={footerStyle}>
       <div style={containerStyle}>
-        <div style={gridStyle} className="md:grid-cols-3">
+        <div style={gridStyle} className="footer-grid">
           <div>
             <h3 style={sectionTitleStyle}>关于</h3>
             <p style={textStyle}>
@@ -147,6 +147,18 @@ export default function Footer() {
         <div style={bottomStyle}>
           <p>&copy; {currentYear} 我的博客. All rights reserved.</p>
         </div>
+        <style jsx>{`
+          .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+          @media (min-width: 768px) {
+            .footer-grid {
+              grid-template-columns: repeat(3, 1fr);
+            }
+          }
+        `}</style>
       </div>
     </footer>
   );

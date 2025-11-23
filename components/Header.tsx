@@ -130,7 +130,7 @@ export default function Header() {
             <span style={logoTextStyle}>📝 我的博客</span>
           </Link>
           {/* Desktop Navigation */}
-          <nav style={{ ...desktopNavStyle, display: 'none' }} className="md:flex">
+          <nav style={desktopNavStyle} className="desktop-nav">
             {navLinks.map((link) => (
               <NavLink
                 key={link.path}
@@ -141,6 +141,16 @@ export default function Header() {
               </NavLink>
             ))}
           </nav>
+          <style jsx>{`
+            .desktop-nav {
+              display: none;
+            }
+            @media (min-width: 768px) {
+              .desktop-nav {
+                display: flex;
+              }
+            }
+          `}</style>
         </div>
         <div style={rightSideStyle}>
           <ThemeToggle />
@@ -149,7 +159,7 @@ export default function Header() {
             style={mobileMenuButtonStyle}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
-            className="md:hidden"
+            className="mobile-menu-button"
           >
             <span style={{
               ...hamburgerLineStyle,
@@ -164,12 +174,22 @@ export default function Header() {
               transform: isMenuOpen ? 'rotate(-45deg) translate(7px, -7px)' : 'none',
             }} />
           </button>
+          <style jsx>{`
+            .mobile-menu-button {
+              display: block;
+            }
+            @media (min-width: 768px) {
+              .mobile-menu-button {
+                display: none;
+              }
+            }
+          `}</style>
         </div>
       </div>
       
       {/* Mobile Dropdown Menu */}
       {isMenuOpen && (
-        <div style={dropdownStyle} className="md:hidden">
+        <div style={dropdownStyle} className="mobile-dropdown">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -194,6 +214,16 @@ export default function Header() {
               <span>{link.label}</span>
             </Link>
           ))}
+          <style jsx>{`
+            .mobile-dropdown {
+              display: block;
+            }
+            @media (min-width: 768px) {
+              .mobile-dropdown {
+                display: none;
+              }
+            }
+          `}</style>
         </div>
       )}
     </header>

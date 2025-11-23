@@ -103,27 +103,113 @@ export default function MDXContent({ content }: MDXContentProps) {
     });
   }, [content]);
 
+  const contentStyle: React.CSSProperties = {
+    maxWidth: 'none',
+    fontSize: '16px',
+    lineHeight: '1.75',
+    color: '#1f2937',
+  };
+
   return (
-    <div
-      ref={contentRef}
-      className="prose prose-slate dark:prose-invert max-w-none
-        prose-headings:scroll-mt-20
-        prose-h1:text-4xl prose-h1:font-bold prose-h1:mb-4
-        prose-h2:text-3xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4
-        prose-h3:text-2xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3
-        prose-p:leading-7 prose-p:mb-4
-        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-        prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-        prose-pre:bg-slate-900 prose-pre:text-slate-50
-        prose-img:rounded-lg prose-img:shadow-lg
-        prose-ul:list-disc prose-ul:ml-6
-        prose-ol:list-decimal prose-ol:ml-6
-        prose-li:mb-2
-        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic
-        prose-table:border-collapse prose-table:w-full
-        prose-th:border prose-th:border-border prose-th:p-2 prose-th:bg-muted
-        prose-td:border prose-td:border-border prose-td:p-2"
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
+    <>
+      <div
+        ref={contentRef}
+        style={contentStyle}
+        className="mdx-content"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+      <style jsx global>{`
+        .mdx-content h1, .mdx-content h2, .mdx-content h3, .mdx-content h4, .mdx-content h5, .mdx-content h6 {
+          scroll-margin-top: 80px;
+          font-weight: 600;
+        }
+        .mdx-content h1 {
+          font-size: 2.25rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+        }
+        .mdx-content h2 {
+          font-size: 1.875rem;
+          font-weight: 600;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+        }
+        .mdx-content h3 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-top: 1.5rem;
+          margin-bottom: 0.75rem;
+        }
+        .mdx-content p {
+          line-height: 1.75;
+          margin-bottom: 1rem;
+        }
+        .mdx-content a {
+          color: #0070f3;
+          text-decoration: none;
+        }
+        .mdx-content a:hover {
+          text-decoration: underline;
+        }
+        .mdx-content code {
+          background-color: #f3f4f6;
+          padding: 0.125rem 0.375rem;
+          border-radius: 0.25rem;
+          font-size: 0.875em;
+        }
+        .mdx-content pre {
+          background-color: #1e293b;
+          color: #f8fafc;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          overflow-x: auto;
+          margin: 1rem 0;
+        }
+        .mdx-content pre code {
+          background-color: transparent;
+          padding: 0;
+          border-radius: 0;
+        }
+        .mdx-content img {
+          border-radius: 0.5rem;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .mdx-content ul {
+          list-style-type: disc;
+          margin-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        .mdx-content ol {
+          list-style-type: decimal;
+          margin-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        .mdx-content li {
+          margin-bottom: 0.5rem;
+        }
+        .mdx-content blockquote {
+          border-left: 4px solid #0070f3;
+          padding-left: 1rem;
+          font-style: italic;
+          margin: 1rem 0;
+          color: #6b7280;
+        }
+        .mdx-content table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 1rem 0;
+        }
+        .mdx-content th {
+          border: 1px solid #e5e7eb;
+          padding: 0.5rem;
+          background-color: #f3f4f6;
+          font-weight: 600;
+        }
+        .mdx-content td {
+          border: 1px solid #e5e7eb;
+          padding: 0.5rem;
+        }
+      `}</style>
+    </>
   );
 }
