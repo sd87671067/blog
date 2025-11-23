@@ -9,16 +9,26 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    // 自动跟随系统主题
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true)
-      document.documentElement.classList.add('dark')
+    const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
     }
+    
+    // 初始设置
+    updateTheme(mediaQuery)
+    
+    // 监听主题变化
+    mediaQuery.addEventListener('change', updateTheme)
+    
+    return () => mediaQuery.removeEventListener('change', updateTheme)
   }, [])
 
   const navItems = [
@@ -27,13 +37,6 @@ export default function Header() {
     { name: '标签', href: '/tags' },
     { name: '搜索', href: '#', action: 'search' },
   ]
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark
-    setIsDark(newIsDark)
-    document.documentElement.classList.toggle('dark')
-    localStorage.setItem('theme', newIsDark ? 'dark' : 'light')
-  }
 
   const handleNavClick = (item: typeof navItems[0]) => {
     if (item.action === 'search') {
@@ -114,58 +117,8 @@ export default function Header() {
             }} />
           </button>
 
-          {/* 右侧按钮组 */}
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            {/* 搜索按钮 */}
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              style={{
-                padding: '8px 16px',
-                borderRadius: '20px',
-                border: 'none',
-                background: 'var(--button-bg)',
-                cursor: 'pointer',
-                fontSize: '16px',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-              aria-label="Search"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--button-hover-bg)'
-                e.currentTarget.style.transform = 'scale(1.05)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--button-bg)'
-                e.currentTarget.style.transform = 'scale(1)'
-              }}
-            >
-              🔍
-            </button>
-
-            {/* 夜间模式 */}
-            <button
-              onClick={toggleTheme}
-              style={{
-                padding: '8px 16px',
-                borderRadius: '20px',
-                border: 'none',
-                background: 'var(--button-bg)',
-                cursor: 'pointer',
-                fontSize: '16px',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-              aria-label="Toggle theme"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--button-hover-bg)'
-                e.currentTarget.style.transform = 'scale(1.05)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--button-bg)'
-                e.currentTarget.style.transform = 'scale(1)'
-              }}
-            >
-              {isDark ? '☀️' : '🌙'}
-            </button>
-          </div>
+          {/* 右侧占位 - 保持对称 */}
+          <div style={{ width: '44px' }} />
         </div>
       </header>
 
