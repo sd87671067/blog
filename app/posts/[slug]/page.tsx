@@ -1,115 +1,113 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { getPostBySlug, getAllPostSlugs, getAdjacentPosts } from '@/lib/posts';
-import { formatDate } from '@/lib/utils';
-import MDXContent from '@/components/MDXContent';
-import TableOfContents from '@/components/TableOfContents';
+import { getPostBySlug, getAllPosts } from '@/lib/posts'
+import { notFound } from 'next/navigation'
+
+interface PageProps {
+  params: Promise<{ slug: string }>
+}
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const posts = await getAllPosts()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
+export default async function PostPage({ params }: PageProps) {
+  const { slug } = await params
+  const post = await getPostBySlug(slug)
 
   if (!post) {
-    return {
-      title: '文章未找到',
-    };
+    notFound()
   }
-
-  return {
-    title: post.title,
-    description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: 'article',
-      publishedTime: post.date,
-      tags: post.tags,
-    },
-  };
-}
-
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = await getPostBySlug(slug);
-
-  if (!post) {
-    notFound();
-  }
-
-  const { prev, next } = await getAdjacentPosts(slug);
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <article className="max-w-4xl mx-auto">
-        {/* Article Header */}
-        <header className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-          <div className="flex flex-wrap items-center gap-4 text-muted-foreground mb-6">
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-            <span>·</span>
-            <span>{post.readingTime}</span>
-            <span>·</span>
-            <Link
-              href={`/categories/${post.category}`}
-              className="text-primary hover:underline"
-            >
-              {post.category}
-            </Link>
-          </div>
-          {post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tags/${tag}`}
-                  className="text-sm px-3 py-1 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-                >
-                  #{tag}
-                </Link>
-              ))}
-            </div>
-          )}
-        </header>
-
-        {/* Article Content with TOC */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr,250px] gap-8">
-          <div className="min-w-0">
-            <MDXContent content={post.htmlContent} />
-          </div>
-          <aside className="hidden lg:block">
-            <TableOfContents toc={post.toc} />
-          </aside>
+    <article style={{
+      maxWidth: '800px',
+      margin: '0 auto',
+      padding: '48px 20px',
+    }}>
+      {/* 文章头部 */}
+      <header style={{ marginBottom: '48px' }}>
+        <div style={{
+          display: 'inline-block',
+          padding: '6px 14px',
+          borderRadius: '12px',
+          backgroundColor: 'rgba(0, 122, 255, 0.1)',
+          color: '#007AFF',
+          fontSize: '13px',
+          fontWeight: 600,
+          marginBottom: '16px',
+        }}>
+          {post.category}
         </div>
 
-        {/* Navigation */}
-        <nav className="mt-12 pt-8 border-t">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {prev && (
-              <Link
-                href={`/posts/${prev.slug}`}
-                className="p-4 rounded-lg border hover:bg-accent transition-colors"
-              >
-                <div className="text-sm text-muted-foreground mb-1">← 上一篇</div>
-                <div className="font-medium">{prev.title}</div>
-              </Link>
-            )}
-            {next && (
-              <Link
-                href={`/posts/${next.slug}`}
-                className="p-4 rounded-lg border hover:bg-accent transition-colors md:text-right"
-              >
-                <div className="text-sm text-muted-foreground mb-1">下一篇 →</div>
-                <div className="font-medium">{next.title}</div>
-              </Link>
-            )}
-          </div>
-        </nav>
-      </article>
-    </div>
-  );
+        <h1 style={{
+          fontSize: '36px',
+          fontWeight: 700,
+          lineHeight: 1.2,
+          marginBottom: '16px',
+          color: 'var(--text-primary)',
+          letterSpacing: '-0.5px',
+        }}>
+          {post.title}
+        </h1>
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          fontSize: '15px',
+          color: 'var(--text-secondary)',
+        }}>
+          <time>{new Date(post.date).toLocaleDateString('zh-CN')}</time>
+          {post.readingTime && (
+            <>
+              <span>·</span>
+              <span>{post.readingTime}</span>
+            </>
+          )}
+        </div>
+      </header>
+
+      {/* 文章内容 */}
+      <div 
+        style={{
+          fontSize: '17px',
+          lineHeight: '1.7',
+          color: 'var(--text-primary)',
+        }}
+        dangerouslySetInnerHTML={{ __html: post.contentHtml || post.content }}
+      />
+
+      {/* 标签 */}
+      {post.tags && post.tags.length > 0 && (
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '12px',
+          marginTop: '48px',
+          paddingTop: '48px',
+          borderTop: '1px solid var(--border-color)',
+        }}>
+          {post.tags.map((tag) => (
+            <a
+              key={tag}
+              href={`/tags/${encodeURIComponent(tag)}`}
+              style={{
+                padding: '8px 16px',
+                borderRadius: '20px',
+                backgroundColor: 'var(--tag-bg)',
+                color: 'var(--text-secondary)',
+                fontSize: '14px',
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+              }}
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </article>
+  )
 }

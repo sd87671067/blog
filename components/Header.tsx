@@ -1,224 +1,200 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import ThemeToggle from './ThemeToggle';
-import { CSSProperties, useState } from 'react';
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function Header() {
-  const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isDark, setIsDark] = useState(false)
 
-  const isActive = (path: string) => {
-    if (path === '/') {
-      return pathname === path;
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setIsDark(true)
+      document.documentElement.classList.add('dark')
     }
-    return pathname.startsWith(path);
-  };
+  }, [])
 
-  const headerStyle: CSSProperties = {
-    position: 'sticky',
-    top: 0,
-    zIndex: 50,
-    width: '100%',
-    borderBottom: '1px solid #e5e7eb',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(8px)',
-  };
+  const navItems = [
+    { name: '主页', href: '/' },
+    { name: '分类', href: '/categories' },
+    { name: '标签', href: '/tags' },
+    { name: '搜索', href: '/search' },
+  ]
 
-  const containerStyle: CSSProperties = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    display: 'flex',
-    height: '64px',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 16px',
-  };
-
-  const leftSideStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '24px',
-  };
-
-  const logoStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    textDecoration: 'none',
-  };
-
-  const logoTextStyle: CSSProperties = {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#000',
-  };
-
-  const desktopNavStyle: CSSProperties = {
-    display: 'flex',
-    gap: '24px',
-  };
-
-  const mobileMenuButtonStyle: CSSProperties = {
-    display: 'block',
-    width: '44px',
-    height: '44px',
-    border: 'none',
-    background: 'none',
-    cursor: 'pointer',
-    padding: '10px',
-    position: 'relative',
-  };
-
-  const hamburgerLineStyle: CSSProperties = {
-    display: 'block',
-    width: '24px',
-    height: '2px',
-    backgroundColor: '#000',
-    margin: '5px auto',
-    transition: 'all 0.3s ease',
-    borderRadius: '2px',
-  };
-
-  const dropdownStyle: CSSProperties = {
-    position: 'absolute',
-    top: '64px',
-    right: '16px',
-    backgroundColor: '#fff',
-    border: '1px solid #e5e7eb',
-    borderRadius: '8px',
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-    minWidth: '200px',
-    padding: '8px',
-    animation: 'slideDown 0.3s ease',
-  };
-
-  const dropdownItemStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '12px 16px',
-    borderRadius: '4px',
-    textDecoration: 'none',
-    color: '#000',
-    transition: 'background-color 0.2s ease',
-  };
-
-  const iconStyle: CSSProperties = {
-    width: '20px',
-    height: '20px',
-  };
-
-  const rightSideStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-  };
-
-  const navLinks = [
-    { path: '/', label: '首页', icon: '🏠' },
-    { path: '/posts', label: '文章', icon: '📝' },
-    { path: '/tags', label: '标签', icon: '🏷️' },
-  ];
+  const toggleTheme = () => {
+    const newIsDark = !isDark
+    setIsDark(newIsDark)
+    document.documentElement.classList.toggle('dark')
+    localStorage.setItem('theme', newIsDark ? 'dark' : 'light')
+  }
 
   return (
-    <header style={headerStyle}>
-      <div style={containerStyle}>
-        <div style={leftSideStyle}>
-          <Link href="/" style={logoStyle}>
-            <span style={logoTextStyle}>📝 我的博客</span>
-          </Link>
-          {/* Desktop Navigation */}
-          <nav style={{ ...desktopNavStyle, display: 'none' }} className="md:flex">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                href={link.path}
-                isActive={isActive(link.path)}
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
-        </div>
-        <div style={rightSideStyle}>
-          <ThemeToggle />
-          {/* Mobile Menu Button */}
+    <>
+      <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        width: '100%',
+        borderBottom: '0.5px solid var(--border-color)',
+        backgroundColor: 'var(--header-bg)',
+        backdropFilter: 'saturate(180%) blur(20px)',
+        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          height: '52px',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 20px',
+        }}>
+          {/* 汉堡菜单 */}
           <button
-            style={mobileMenuButtonStyle}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-            className="md:hidden"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              border: 'none',
+              background: 'none',
+              cursor: 'pointer',
+              padding: 0,
+            }}
+            aria-label="Menu"
           >
             <span style={{
-              ...hamburgerLineStyle,
-              transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none',
+              width: '20px',
+              height: '2px',
+              backgroundColor: 'var(--text-primary)',
+              borderRadius: '2px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none',
             }} />
             <span style={{
-              ...hamburgerLineStyle,
-              opacity: isMenuOpen ? 0 : 1,
+              width: '20px',
+              height: '2px',
+              backgroundColor: 'var(--text-primary)',
+              borderRadius: '2px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              opacity: mobileMenuOpen ? 0 : 1,
             }} />
             <span style={{
-              ...hamburgerLineStyle,
-              transform: isMenuOpen ? 'rotate(-45deg) translate(7px, -7px)' : 'none',
+              width: '20px',
+              height: '2px',
+              backgroundColor: 'var(--text-primary)',
+              borderRadius: '2px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none',
             }} />
           </button>
+
+          {/* 夜间模式 */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '20px',
+              border: 'none',
+              background: 'var(--button-bg)',
+              cursor: 'pointer',
+              fontSize: '16px',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+            aria-label="Toggle theme"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--button-hover-bg)'
+              e.currentTarget.style.transform = 'scale(1.05)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--button-bg)'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            {isDark ? '☀️' : '🌙'}
+          </button>
         </div>
-      </div>
-      
-      {/* Mobile Dropdown Menu */}
-      {isMenuOpen && (
-        <div style={dropdownStyle} className="md:hidden">
-          {navLinks.map((link) => (
+      </header>
+
+      {/* 下拉菜单 - 增强毛玻璃 */}
+      <div style={{
+        position: 'fixed',
+        top: '52px',
+        left: 0,
+        right: 0,
+        backgroundColor: 'var(--header-bg)',
+        backdropFilter: 'saturate(180%) blur(20px)',
+        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+        borderBottom: '0.5px solid var(--border-color)',
+        transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        opacity: mobileMenuOpen ? 1 : 0,
+        pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+        zIndex: 40,
+        boxShadow: mobileMenuOpen ? '0 10px 30px rgba(0,0,0,0.1)' : 'none',
+      }}>
+        <nav style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+        }}>
+          {navItems.map((item, index) => (
             <Link
-              key={link.path}
-              href={link.path}
+              key={item.href}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
               style={{
-                ...dropdownItemStyle,
-                backgroundColor: isActive(link.path) ? '#f3f4f6' : 'transparent',
+                padding: '16px 20px',
+                fontSize: '17px',
+                fontWeight: 500,
+                color: pathname === item.href ? '#007AFF' : 'var(--text-primary)',
+                textDecoration: 'none',
+                borderRadius: '12px',
+                backgroundColor: pathname === item.href ? 'rgba(0, 122, 255, 0.1)' : 'transparent',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                animation: mobileMenuOpen ? `slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s backwards` : 'none',
               }}
-              onClick={() => setIsMenuOpen(false)}
               onMouseEnter={(e) => {
-                if (!isActive(link.path)) {
-                  e.currentTarget.style.backgroundColor = '#f9fafb';
+                if (pathname !== item.href) {
+                  e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
                 }
               }}
               onMouseLeave={(e) => {
-                if (!isActive(link.path)) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
+                if (pathname !== item.href) {
+                  e.currentTarget.style.backgroundColor = 'transparent'
                 }
               }}
             >
-              <span style={iconStyle}>{link.icon}</span>
-              <span>{link.label}</span>
+              {item.name}
             </Link>
           ))}
-        </div>
-      )}
-    </header>
-  );
-}
+        </nav>
+      </div>
 
-function NavLink({ href, isActive, children }: { href: string; isActive: boolean; children: React.ReactNode }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const linkStyle: CSSProperties = {
-    fontSize: '14px',
-    fontWeight: '500',
-    transition: 'color 0.2s ease',
-    color: isActive ? '#000' : (isHovered ? '#0070f3' : 'rgba(0, 0, 0, 0.6)'),
-    textDecoration: 'none',
-  };
-
-  return (
-    <Link
-      href={href}
-      style={linkStyle}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {children}
-    </Link>
-  );
+      <style jsx global>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </>
+  )
 }
