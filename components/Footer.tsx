@@ -122,6 +122,30 @@ export default function Footer() {
           "技术可以让你后退一步研究市场，避免被负面情绪影响"
         </div>
 
+        {/* 新增的跟随说明 */}
+        <div style={{
+          fontSize: '15px',
+          color: 'var(--text-secondary)',
+          textAlign: 'center',
+          fontStyle: 'italic',
+          maxWidth: '600px',
+          lineHeight: 1.6,
+          padding: '0 20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '6px',
+        }}>
+          <span>点击上方的第三个和第四个按钮，都可以跟随我交易</span>
+          <span style={{
+            display: 'inline-block',
+            color: '#FF3B30',
+            animation: 'heartbeat 1.2s ease-in-out infinite',
+          }}>
+            ❤️
+          </span>
+        </div>
+
         {/* 版权信息 */}
         <div style={{
           fontSize: '13px',
@@ -131,6 +155,21 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} by 孤独的交易员. All rights reserved.</p>
         </div>
       </div>
+
+      {/* CSS 动画 */}
+      <style jsx>{`
+        @keyframes heartbeat {
+          0%, 100% {
+            transform: scale(1);
+          }
+          10%, 30% {
+            transform: scale(1.1);
+          }
+          20%, 40% {
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </footer>
   )
 }
