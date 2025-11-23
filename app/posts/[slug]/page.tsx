@@ -1,6 +1,7 @@
-import { getPostBySlug, getAllPosts } from '@/lib/posts'
+import { getPostBySlug, getAllPosts, getPostNavigation } from '@/lib/posts'
 import { notFound } from 'next/navigation'
 import PostContent from '@/components/PostContent'
+import PostNavigation from '@/components/PostNavigation'
 import type { Metadata } from 'next'
 
 interface PageProps {
@@ -59,6 +60,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
+  const navigation = await getPostNavigation(slug)
 
   if (!post) {
     notFound()
@@ -146,6 +148,7 @@ export default async function PostPage({ params }: PageProps) {
 
         <PostContent content={post.contentHtml || post.content} />
 
+        {/* 标签 */}
         {post.tags && post.tags.length > 0 && (
           <div style={{
             display: 'flex',
@@ -174,6 +177,12 @@ export default async function PostPage({ params }: PageProps) {
             ))}
           </div>
         )}
+
+        {/* 前后文章导航 */}
+        <PostNavigation
+          prev={navigation.prev}
+          next={navigation.next}
+        />
       </article>
     </>
   )

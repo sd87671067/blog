@@ -20,6 +20,11 @@ export interface Post extends PostMetadata {
   contentHtml?: string
 }
 
+export interface PostNavigation {
+  prev: PostMetadata | null
+  next: PostMetadata | null
+}
+
 function estimateReadingTime(content: string): string {
   const wordsPerMinute = 200
   const wordCount = content.split(/\s+/).length
@@ -124,6 +129,16 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error)
     return null
+  }
+}
+
+export async function getPostNavigation(currentSlug: string): Promise<PostNavigation> {
+  const allPosts = await getAllPosts()
+  const currentIndex = allPosts.findIndex(post => post.slug === currentSlug)
+  
+  return {
+    prev: currentIndex > 0 ? allPosts[currentIndex - 1] : null,
+    next: currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null,
   }
 }
 
