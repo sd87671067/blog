@@ -389,3 +389,12 @@ pre code {
   background: #161b22 !important;
   color: #c9d1d9 !important;
 }
+
+/* 分页按钮禁用状态 */
+:root {
+  --button-disabled-bg: #f6f8fa;
+}
+
+.dark {
+  --button-disabled-bg: #161b22;
+}
