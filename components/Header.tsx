@@ -11,7 +11,6 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    // 自动跟随系统主题
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     
     const updateTheme = (e: MediaQueryListEvent | MediaQueryList) => {
@@ -22,10 +21,7 @@ export default function Header() {
       }
     }
     
-    // 初始设置
     updateTheme(mediaQuery)
-    
-    // 监听主题变化
     mediaQuery.addEventListener('change', updateTheme)
     
     return () => mediaQuery.removeEventListener('change', updateTheme)
@@ -33,7 +29,7 @@ export default function Header() {
 
   const navItems = [
     { name: '主页', href: '/' },
-    { name: '分类', href: '/categories' },
+    { name: '文章', href: '/posts' },
     { name: '标签', href: '/tags' },
     { name: '搜索', href: '#', action: 'search' },
   ]
@@ -73,7 +69,6 @@ export default function Header() {
           justifyContent: 'space-between',
           padding: '0 20px',
         }}>
-          {/* 汉堡菜单 */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{
@@ -117,7 +112,6 @@ export default function Header() {
             }} />
           </button>
 
-          {/* 右侧占位 - 保持对称 */}
           <div style={{ width: '44px' }} />
         </div>
       </header>

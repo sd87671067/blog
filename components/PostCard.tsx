@@ -18,7 +18,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
   const [isPressed, setIsPressed] = useState(false)
 
   return (
-    <Link href={`/posts/${post.slug}`}>
+    <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }}>
       <article
         style={{
           borderRadius: '18px',
@@ -63,7 +63,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
         `}</style>
 
         <div style={{ padding: '24px' }}>
-          {/* 分类标签 */}
           <div style={{
             display: 'inline-block',
             padding: '6px 12px',
@@ -78,7 +77,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             {post.category}
           </div>
 
-          {/* 标题 */}
           <h2 style={{
             fontSize: '20px',
             fontWeight: 600,
@@ -90,7 +88,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             {post.title}
           </h2>
 
-          {/* 描述 */}
           {post.description && (
             <p style={{
               color: 'var(--text-secondary)',
@@ -102,7 +99,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             </p>
           )}
 
-          {/* 元信息 */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -120,7 +116,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             )}
           </div>
 
-          {/* 标签 */}
           {post.tags.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {post.tags.slice(0, 3).map((tag) => (
