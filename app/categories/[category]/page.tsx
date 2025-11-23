@@ -6,21 +6,23 @@ export async function generateStaticParams() {
   return Object.keys(categories).map((category) => ({ category }));
 }
 
-export async function generateMetadata({ params }: { params: { category: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
+  const { category } = await params;
   return {
-    title: `分类: ${params.category}`,
-    description: `浏览分类为 ${params.category} 的所有文章`,
+    title: `分类: ${category}`,
+    description: `浏览分类为 ${category} 的所有文章`,
   };
 }
 
-export default async function CategoryPage({ params }: { params: { category: string } }) {
-  const posts = await getPostsByCategory(params.category);
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const { category } = await params;
+  const posts = await getPostsByCategory(category);
 
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4">
-          分类: <span className="text-primary">{params.category}</span>
+          分类: <span className="text-primary">{category}</span>
         </h1>
         <p className="text-muted-foreground">共 {posts.length} 篇文章</p>
       </div>
