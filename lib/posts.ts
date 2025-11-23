@@ -29,23 +29,54 @@ function estimateReadingTime(content: string): string {
 
 function markdownToHtml(markdown: string): string {
   let html = markdown
-    .replace(/^### (.*$)/gim, '<h3 style="font-size:24px;font-weight:600;margin:32px 0 16px;color:var(--text-primary)">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 style="font-size:28px;font-weight:600;margin:40px 0 20px;color:var(--text-primary)">$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1 style="font-size:32px;font-weight:700;margin:48px 0 24px;color:var(--text-primary)">$1</h1>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight:600;color:var(--text-primary)">$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:#007AFF;text-decoration:none;">$1</a>')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;height:auto;border-radius:12px;margin:24px auto;display:block;" />')
-    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre style="background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:16px;overflow-x:auto;margin:24px 0;"><code style="color:var(--text-primary);font-family:monospace;">$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code style="background:var(--tag-bg);padding:2px 6px;border-radius:4px;font-size:0.9em;color:var(--text-primary);font-family:monospace;">$1</code>')
-    .split('\n\n')
+  
+  // 代码块 - 必须先处理
+  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+    return `<pre><code class="language-${lang || 'text'}">${escapeHtml(code.trim())}</code></pre>`
+  })
+  
+  // 图片
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" />')
+  
+  // 标题
+  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
+  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
+  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
+  
+  // 粗体和斜体
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
+  
+  // 链接
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+  
+  // 行内代码
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
+  
+  // 段落
+  html = html.split('\n\n')
     .map(para => {
-      if (para.startsWith('<')) return para
-      return para.trim() ? `<p style="margin-bottom:16px;line-height:1.7;color:var(--text-primary);">${para}</p>` : ''
+      para = para.trim()
+      if (!para) return ''
+      if (para.startsWith('<h') || para.startsWith('<pre') || para.startsWith('<img')) {
+        return para
+      }
+      return `<p>${para}</p>`
     })
     .join('\n')
 
   return html
+}
+
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  }
+  return text.replace(/[&<>"']/g, m => map[m])
 }
 
 export async function getAllPosts(): Promise<PostMetadata[]> {
