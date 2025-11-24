@@ -2,55 +2,65 @@ import { getAllPosts } from '@/lib/posts'
 import PostCard from '@/components/PostCard'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function Home() {
-  const allPosts = await getAllPosts()
-  const featuredPosts = allPosts.slice(0, 3) // 只取最新3篇
+  const allPostsData = await getAllPosts()
+  const recentPosts = allPostsData.slice(0, 6)
 
   return (
     <div style={{
       maxWidth: '1200px',
       margin: '0 auto',
-      padding: '48px 20px',
+      padding: '16px 16px 4px',
     }}>
-      <section style={{ marginBottom: '48px' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '32px',
-        }}>
-          <h2 style={{
-            fontSize: '28px',
-            fontWeight: 600,
-            margin: 0,
-            letterSpacing: '-0.5px',
-          }}>
-            最新文章
-          </h2>
-          <Link
-            href="/posts"
-            style={{
-              color: '#007AFF',
-              textDecoration: 'none',
-              fontSize: '15px',
-              fontWeight: 500,
-              transition: 'opacity 0.2s',
-            }}
-          >
-            查看全部 →
-          </Link>
-        </div>
+      {/* 双列网格布局 */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '12px',
+        maxWidth: '800px',
+        margin: '0 auto 6px',
+      }}>
+        {recentPosts.map((post, index) => (
+          <PostCard key={post.slug} post={post} index={index} />
+        ))}
+      </div>
 
+      {/* 查看更多链接 + 文章数 */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        maxWidth: '800px',
+        margin: '0 auto',
+        padding: '0 4px',
+        gap: '4px',
+      }}>
+        <Link
+          href="/posts"
+          style={{
+            fontSize: '15px',
+            color: '#06c',
+            textDecoration: 'none',
+            fontWeight: 500,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+            padding: '6px 12px',
+            borderRadius: '8px',
+            background: 'rgba(0, 102, 204, 0.08)',
+            transition: 'background 0.2s ease',
+          }}
+        >
+          查看更多文章 →
+        </Link>
         <div style={{
-          display: 'grid',
-          gap: '20px',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+          fontSize: '12px',
+          color: '#999',
         }}>
-          {featuredPosts.map((post, index) => (
-            <PostCard key={post.slug} post={post} index={index} />
-          ))}
+          共 {allPostsData.length} 篇文章
         </div>
-      </section>
+      </div>
     </div>
   )
 }
