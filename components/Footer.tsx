@@ -55,7 +55,7 @@ export default function Footer() {
     <footer style={{
       borderTop: '1px solid var(--border-color)',
       backgroundColor: 'var(--footer-bg)',
-      padding: '48px 20px',
+      padding: '32px 20px 24px',
     }}>
       <div style={{
         maxWidth: '1200px',
@@ -63,7 +63,7 @@ export default function Footer() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '32px',
+        gap: '20px',
       }}>
         {/* 社交图标 - 横向排列 */}
         <div style={{
@@ -109,41 +109,50 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* 格言 */}
+        {/* 格言和跟随说明 - 合并显示 */}
         <div style={{
-          fontSize: '15px',
-          color: 'var(--text-secondary)',
-          textAlign: 'center',
-          fontStyle: 'italic',
-          maxWidth: '600px',
-          lineHeight: 1.6,
-          padding: '0 20px',
-        }}>
-          "技术可以让你后退一步研究市场，避免被负面情绪影响"
-        </div>
-
-        {/* 新增的跟随说明 */}
-        <div style={{
-          fontSize: '15px',
-          color: 'var(--text-secondary)',
-          textAlign: 'center',
-          fontStyle: 'italic',
-          maxWidth: '600px',
-          lineHeight: 1.6,
-          padding: '0 20px',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '6px',
+          gap: '12px',
         }}>
-          <span>点击上方的第三个和第四个按钮，都可以跟随我交易</span>
-          <span style={{
-            display: 'inline-block',
-            color: '#FF3B30',
-            animation: 'heartbeat 1.2s ease-in-out infinite',
+          {/* 格言 */}
+          <div style={{
+            fontSize: '15px',
+            color: 'var(--text-secondary)',
+            textAlign: 'center',
+            fontStyle: 'italic',
+            maxWidth: '600px',
+            lineHeight: 1.5,
+            padding: '0 20px',
           }}>
-            ❤️
-          </span>
+            "技术可以让你后退一步研究市场，避免被负面情绪影响"
+          </div>
+
+          {/* 跟随说明 */}
+          <div style={{
+            fontSize: '15px',
+            color: 'var(--text-secondary)',
+            textAlign: 'center',
+            fontStyle: 'italic',
+            maxWidth: '600px',
+            lineHeight: 1.5,
+            padding: '0 20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            flexWrap: 'wrap',
+          }}>
+            <span>点击上方的第三个和第四个按钮，都可以跟随我交易</span>
+            <span style={{
+              display: 'inline-block',
+              color: '#FF3B30',
+              animation: 'heartbeat 1.2s ease-in-out infinite',
+            }}>
+              ❤️
+            </span>
+          </div>
         </div>
 
         {/* 版权信息 */}
@@ -151,8 +160,9 @@ export default function Footer() {
           fontSize: '13px',
           color: 'var(--text-tertiary)',
           textAlign: 'center',
+          marginTop: '8px',
         }}>
-          <p>© {new Date().getFullYear()} by 孤独的交易员. All rights reserved.</p>
+          <p style={{ margin: 0 }}>© {new Date().getFullYear()} by 孤独的交易员. All rights reserved.</p>
         </div>
       </div>
 
