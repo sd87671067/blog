@@ -7,7 +7,7 @@ export const revalidate = 0
 
 export default async function Home() {
   const allPostsData = await getAllPosts()
-  const recentPosts = allPostsData.slice(0, 6)
+  const recentPosts = allPostsData.slice(0, 6) // 只取前 6 篇
 
   return (
     <div style={{

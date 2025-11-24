@@ -14,7 +14,6 @@ interface Post {
   readingTime?: string
 }
 
-// App Store 风格的柔和渐变配色
 const cardStyles = [
   {
     background: 'linear-gradient(135deg, #B8E3FF 0%, #7EC8E3 100%)',
@@ -42,7 +41,6 @@ const cardStyles = [
   },
 ]
 
-// 装饰图标池
 const decorationIcons = [
   '/images/decorations/balloon.svg',
   '/images/decorations/book.svg',
@@ -72,7 +70,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
   }
 
   return (
-    <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }} onClick={handleClick}>
+    <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }} onClick={handleClick} prefetch={false}>
       <article
         style={{
           borderRadius: '16px',
@@ -105,6 +103,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           display: 'block',
           opacity: isClicked ? 0 : 1,
           zIndex: isClicked ? 999 : 1,
+          willChange: 'transform, opacity',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setIsPressed(false) }}
@@ -131,7 +130,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           }
         `}</style>
         
-        {/* 内容容器 */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -141,13 +139,9 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           display: 'flex',
           flexDirection: 'column',
         }}>
-          {/* 渐变背景层 */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.background, opacity: 1 }} />
-          
-          {/* 图案层 */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
           
-          {/* 装饰图标 */}
           <div style={{
             position: 'absolute',
             top: '14px',
@@ -165,16 +159,17 @@ export default function PostCard({ post, index }: { post: Post; index: number })
                 src={decorationIcon}
                 alt="decoration" 
                 fill
+                sizes="60px"
                 style={{ 
                   objectFit: 'contain',
                   filter: 'drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15))',
-                }} 
-                priority={index < 3} 
+                }}
+                loading={index < 4 ? 'eager' : 'lazy'}
+                priority={index < 2}
               />
             </div>
           </div>
 
-          {/* 内容层 */}
           <div style={{ 
             padding: '14px', 
             paddingRight: '80px', 

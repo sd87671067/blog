@@ -10,18 +10,24 @@ export const metadata = {
   description: '浏览所有外汇交易文章和分析',
 }
 
-const POSTS_PER_PAGE = 12
+const POSTS_PER_PAGE = 6
 
 export default async function PostsPage({
   searchParams,
 }: {
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }> | { page?: string }
 }) {
+  // 兼容 Next.js 不同版本
+  const params = searchParams instanceof Promise ? await searchParams : searchParams
+  
   const allPostsData = await getAllPosts()
-  const currentPage = Number(searchParams.page) || 1
+  const currentPage = Number(params.page) || 1
   const totalPages = Math.ceil(allPostsData.length / POSTS_PER_PAGE)
   
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE
+  // 确保页码在有效范围内
+  const validPage = Math.max(1, Math.min(currentPage, totalPages))
+  
+  const startIndex = (validPage - 1) * POSTS_PER_PAGE
   const endIndex = startIndex + POSTS_PER_PAGE
   const currentPosts = allPostsData.slice(startIndex, endIndex)
 
@@ -37,27 +43,37 @@ export default async function PostsPage({
         gridTemplateColumns: 'repeat(2, 1fr)',
         gap: '12px',
         maxWidth: '800px',
-        margin: '0 auto 12px',
+        margin: '0 auto',
+        minHeight: '600px', // 固定最小高度（约3行卡片）
       }}>
         {currentPosts.map((post, index) => (
           <PostCard key={post.slug} post={post} index={index} />
         ))}
       </div>
 
-      {/* 翻页组件 */}
-      <ServerPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
-
-      {/* 页面信息 */}
+      {/* 翻页区域 */}
       <div style={{
-        textAlign: 'center',
-        marginTop: '6px',
-        fontSize: '11px',
-        color: '#999',
+        maxWidth: '800px',
+        margin: '12px auto 0',
+        width: '100%',
       }}>
-        第 {currentPage} 页，共 {totalPages} 页，{allPostsData.length} 篇文章
+        {/* 翻页组件 */}
+        {totalPages > 1 && (
+          <ServerPagination
+            currentPage={validPage}
+            totalPages={totalPages}
+          />
+        )}
+
+        {/* 页面信息 */}
+        <div style={{
+          textAlign: 'center',
+          marginTop: '6px',
+          fontSize: '11px',
+          color: '#999',
+        }}>
+          第 {validPage} 页，共 {totalPages} 页，{allPostsData.length} 篇文章
+        </div>
       </div>
     </div>
   )
