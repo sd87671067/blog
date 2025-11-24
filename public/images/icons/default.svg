@@ -1,0 +1,39 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="defaultGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9CA3AF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B7280;stop-opacity:1" />
+    </linearGradient>
+    <filter id="defaultShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="85" fill="url(#defaultGradient)" filter="url(#defaultShadow)"/>
+  
+  <!-- Document icon -->
+  <path d="M 60 50 L 60 150 L 140 150 L 140 80 L 110 50 Z" 
+        fill="#FFFFFF" 
+        opacity="0.9" 
+        filter="url(#defaultShadow)"/>
+  
+  <!-- Folded corner -->
+  <path d="M 110 50 L 110 80 L 140 80 Z" fill="#E5E7EB" opacity="0.8"/>
+  
+  <!-- Lines inside document -->
+  <line x1="75" y1="90" x2="125" y2="90" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
+  <line x1="75" y1="105" x2="125" y2="105" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
+  <line x1="75" y1="120" x2="110" y2="120" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Highlight -->
+  <ellipse cx="100" cy="70" rx="25" ry="15" fill="#FFFFFF" opacity="0.3"/>
+</svg>

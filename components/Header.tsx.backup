@@ -34,13 +34,9 @@ export default function Header() {
     { name: '搜索', href: '#', action: 'search' },
   ]
 
-  const handleNavClick = (item: typeof navItems[0], e: React.MouseEvent) => {
+  const handleNavClick = (item: typeof navItems[0]) => {
     if (item.action === 'search') {
-      e.preventDefault()
       setSearchOpen(true)
-      setMobileMenuOpen(false)
-    } else {
-      // 添加 iOS 风格的页面转场效果
       setMobileMenuOpen(false)
     }
   }
@@ -95,7 +91,7 @@ export default function Header() {
               height: '2px',
               backgroundColor: 'var(--text-primary)',
               borderRadius: '2px',
-              transition: 'all 0.4s cubic-bezier(0.32, 0.72, 0, 1)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none',
             }} />
             <span style={{
@@ -103,7 +99,7 @@ export default function Header() {
               height: '2px',
               backgroundColor: 'var(--text-primary)',
               borderRadius: '2px',
-              transition: 'all 0.4s cubic-bezier(0.32, 0.72, 0, 1)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               opacity: mobileMenuOpen ? 0 : 1,
             }} />
             <span style={{
@@ -111,7 +107,7 @@ export default function Header() {
               height: '2px',
               backgroundColor: 'var(--text-primary)',
               borderRadius: '2px',
-              transition: 'all 0.4s cubic-bezier(0.32, 0.72, 0, 1)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none',
             }} />
           </button>
@@ -131,7 +127,7 @@ export default function Header() {
         WebkitBackdropFilter: 'saturate(180%) blur(20px)',
         borderBottom: '0.5px solid var(--border-color)',
         transform: searchOpen ? 'translateY(0)' : 'translateY(-100%)',
-        transition: 'transform 0.6s cubic-bezier(0.32, 0.72, 0, 1)',
+        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         opacity: searchOpen ? 1 : 0,
         zIndex: 45,
         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
@@ -200,7 +196,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 下拉菜单 - Apple Store 风格 */}
+      {/* 下拉菜单 */}
       <div style={{
         position: 'fixed',
         top: '52px',
@@ -211,7 +207,7 @@ export default function Header() {
         WebkitBackdropFilter: 'saturate(180%) blur(20px)',
         borderBottom: '0.5px solid var(--border-color)',
         transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
-        transition: 'transform 0.6s cubic-bezier(0.32, 0.72, 0, 1)',
+        transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         opacity: mobileMenuOpen ? 1 : 0,
         pointerEvents: mobileMenuOpen ? 'auto' : 'none',
         zIndex: 40,
@@ -229,7 +225,7 @@ export default function Header() {
             item.action === 'search' ? (
               <button
                 key="search"
-                onClick={(e) => handleNavClick(item, e)}
+                onClick={() => handleNavClick(item)}
                 style={{
                   padding: '16px 20px',
                   fontSize: '17px',
@@ -242,7 +238,7 @@ export default function Header() {
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                  animation: mobileMenuOpen ? `slideDown 0.5s cubic-bezier(0.32, 0.72, 0, 1) ${index * 0.08}s backwards` : 'none',
+                  animation: mobileMenuOpen ? `slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s backwards` : 'none',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--hover-bg)'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -253,7 +249,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={(e) => handleNavClick(item, e)}
+                onClick={() => setMobileMenuOpen(false)}
                 style={{
                   padding: '16px 20px',
                   fontSize: '17px',
@@ -263,7 +259,7 @@ export default function Header() {
                   borderRadius: '12px',
                   backgroundColor: pathname === item.href ? 'rgba(0, 122, 255, 0.1)' : 'transparent',
                   transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                  animation: mobileMenuOpen ? `slideDown 0.5s cubic-bezier(0.32, 0.72, 0, 1) ${index * 0.08}s backwards` : 'none',
+                  animation: mobileMenuOpen ? `slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s backwards` : 'none',
                 }}
                 onMouseEnter={(e) => {
                   if (pathname !== item.href) {
@@ -287,44 +283,12 @@ export default function Header() {
         @keyframes slideDown {
           from {
             opacity: 0;
-            transform: translateY(-15px);
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        /* iOS 风格的页面转场动画 */
-        @keyframes pageSlideIn {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes pageFadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.98);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        /* 为页面内容添加 iOS 风格的进入动画 */
-        main {
-          animation: pageFadeIn 0.5s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-
-        main > * {
-          animation: pageSlideIn 0.6s cubic-bezier(0.32, 0.72, 0, 1);
         }
       `}</style>
     </>

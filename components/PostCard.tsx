@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 
 interface Post {
@@ -13,7 +14,6 @@ interface Post {
   readingTime?: string
 }
 
-// App Store 风格的渐变色配置
 const cardStyles = [
   {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -53,56 +53,23 @@ const cardStyles = [
   },
 ]
 
-// 根据分类返回对应的图标 SVG
-const getCategoryIcon = (category: string): React.ReactNode => {
-  const iconMap: { [key: string]: React.ReactNode } = {
-    '外汇交易': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 17L9 11L13 15L21 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M17 7H21V11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    '技术分析': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="14" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '原油信号分析': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L15 8H21L16 13L18 20L12 16L6 20L8 13L3 8H9L12 2Z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '自建梯子': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '交易策略': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L12 8M12 8L9 11M12 8L15 11" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-        <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <path d="M12 16L12 22M12 16L9 13M12 16L15 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
+const getCategoryIcon = (category: string): string => {
+  const iconMap: { [key: string]: string } = {
+    '原油信号分析': '/images/icons/oil-signal.svg',
+    '自建梯子': '/images/icons/vpn-tools.svg',
+    '斐波那契均三条移动平均线': '/images/icons/technical-analysis.svg',
+    '从零开始の外汇': '/images/icons/forex-trading.svg',
+    'MT5交易软件安装指南': '/images/icons/trading-strategy.svg',
+    '外汇交易': '/images/icons/forex-trading.svg',
+    '技术分析': '/images/icons/technical-analysis.svg',
+    '交易策略': '/images/icons/trading-strategy.svg',
   }
-
-  return iconMap[category] || (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      <path d="M14 2v6h6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M12 18v-6M9 15l3 3 3-3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
+  return iconMap[category] || '/images/icons/default.svg'
 }
 
 export default function PostCard({ post, index }: { post: Post; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
-
-  // 根据索引选择样式
   const styleIndex = index % cardStyles.length
   const cardStyle = cardStyles[styleIndex]
 
@@ -112,17 +79,9 @@ export default function PostCard({ post, index }: { post: Post; index: number })
         style={{
           borderRadius: '20px',
           overflow: 'hidden',
-          boxShadow: isPressed
-            ? '0 4px 12px rgba(0, 0, 0, 0.15)'
-            : isHovered 
-              ? '0 24px 48px rgba(0, 0, 0, 0.2)'
-              : '0 8px 16px rgba(0, 0, 0, 0.1)',
+          boxShadow: isPressed ? '0 4px 12px rgba(0, 0, 0, 0.15)' : isHovered ? '0 24px 48px rgba(0, 0, 0, 0.2)' : '0 8px 16px rgba(0, 0, 0, 0.1)',
           transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isPressed 
-            ? 'scale(0.96)' 
-            : isHovered 
-              ? 'translateY(-12px) scale(1.03)' 
-              : 'translateY(0) scale(1)',
+          transform: isPressed ? 'scale(0.96)' : isHovered ? 'translateY(-12px) scale(1.03)' : 'translateY(0) scale(1)',
           animation: `slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s backwards`,
           cursor: 'pointer',
           position: 'relative',
@@ -131,10 +90,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           flexDirection: 'column',
         }}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false)
-          setIsPressed(false)
-        }}
+        onMouseLeave={() => { setIsHovered(false); setIsPressed(false) }}
         onMouseDown={() => setIsPressed(true)}
         onMouseUp={() => setIsPressed(false)}
         onTouchStart={() => setIsPressed(true)}
@@ -142,178 +98,43 @@ export default function PostCard({ post, index }: { post: Post; index: number })
       >
         <style jsx>{`
           @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
           }
         `}</style>
-
+        
         {/* 渐变背景层 */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: cardStyle.background,
-          opacity: 1,
-        }} />
-
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.background, opacity: 1 }} />
+        
         {/* 图案层 */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: cardStyle.pattern,
-          opacity: 1,
-        }} />
-
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
+        
         {/* App Store 风格的图标装饰 */}
         <div style={{
-          position: 'absolute',
-          top: '24px',
-          right: '24px',
-          width: '100px',
-          height: '100px',
-          borderRadius: '24px',
-          background: 'rgba(255, 255, 255, 0.18)',
-          backdropFilter: 'blur(12px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: isHovered ? 'rotate(8deg) scale(1.08)' : 'rotate(0deg) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          position: 'absolute', top: '24px', right: '24px', width: '100px', height: '100px', borderRadius: '24px',
+          background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transform: isHovered ? 'rotate(8deg) scale(1.08)' : 'rotate(0deg) scale(1)', transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
         }}>
-          <div style={{
-            transform: isHovered ? 'rotate(-8deg) scale(1.1)' : 'rotate(0deg) scale(1)',
-            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          }}>
-            {getCategoryIcon(post.category)}
+          <div style={{ transform: isHovered ? 'rotate(-8deg) scale(1.1)' : 'rotate(0deg) scale(1)', transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Image src={getCategoryIcon(post.category)} alt={post.category} width={64} height={64} style={{ filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))' }} priority={index < 3} />
           </div>
         </div>
 
-        {/* 装饰性小圆点 - 左下角 */}
-        <div style={{
-          position: 'absolute',
-          bottom: '100px',
-          left: '30px',
-          width: '50px',
-          height: '50px',
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.12)',
-          transform: isHovered ? 'scale(1.3)' : 'scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        }} />
-
-        {/* 装饰性小方块 - 右下角 */}
-        <div style={{
-          position: 'absolute',
-          bottom: '30px',
-          right: '30px',
-          width: '45px',
-          height: '45px',
-          borderRadius: '12px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          transform: isHovered ? 'rotate(45deg) scale(1.2)' : 'rotate(0deg) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        }} />
-
         {/* 内容层 */}
-        <div style={{ 
-          padding: '28px',
-          paddingRight: '140px',
-          position: 'relative',
-          zIndex: 1,
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '8px 16px',
-            borderRadius: '12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.25)',
-            backdropFilter: 'blur(10px)',
-            color: '#ffffff',
-            fontSize: '13px',
-            fontWeight: 700,
-            marginBottom: '16px',
-            letterSpacing: '0.5px',
-            width: 'fit-content',
-            textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          }}>
+        <div style={{ padding: '28px', paddingRight: '140px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'inline-block', padding: '8px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(10px)', color: '#ffffff', fontSize: '13px', fontWeight: 700, marginBottom: '16px', letterSpacing: '0.5px', width: 'fit-content', textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
             {post.category}
           </div>
-
-          <h2 style={{
-            fontSize: '22px',
-            fontWeight: 700,
-            marginBottom: '12px',
-            color: '#ffffff',
-            lineHeight: 1.3,
-            letterSpacing: '-0.5px',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-          }}>
-            {post.title}
-          </h2>
-
-          {post.description && (
-            <p style={{
-              color: 'rgba(255, 255, 255, 0.9)',
-              marginBottom: '16px',
-              lineHeight: 1.6,
-              fontSize: '15px',
-              textShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
-              flex: 1,
-            }}>
-              {post.description}
-            </p>
-          )}
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            fontSize: '13px',
-            color: 'rgba(255, 255, 255, 0.85)',
-            marginBottom: '16px',
-            fontWeight: 500,
-          }}>
+          <h2 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '12px', color: '#ffffff', lineHeight: 1.3, letterSpacing: '-0.5px', textShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}>{post.title}</h2>
+          {post.description && <p style={{ color: 'rgba(255, 255, 255, 0.9)', marginBottom: '16px', lineHeight: 1.6, fontSize: '15px', textShadow: '0 1px 4px rgba(0, 0, 0, 0.1)', flex: 1 }}>{post.description}</p>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.85)', marginBottom: '16px', fontWeight: 500 }}>
             <time>{new Date(post.date).toLocaleDateString('zh-CN')}</time>
-            {post.readingTime && (
-              <>
-                <span>·</span>
-                <span>{post.readingTime}</span>
-              </>
-            )}
+            {post.readingTime && <><span>·</span><span>{post.readingTime}</span></>}
           </div>
-
           {post.tags.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {post.tags.slice(0, 3).map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    fontSize: '12px',
-                    padding: '6px 12px',
-                    borderRadius: '8px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(5px)',
-                    color: '#ffffff',
-                    fontWeight: 600,
-                  }}
-                >
-                  #{tag}
-                </span>
-              ))}
+              {post.tags.slice(0, 3).map((tag) => <span key={tag} style={{ fontSize: '12px', padding: '6px 12px', borderRadius: '8px', backgroundColor: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(5px)', color: '#ffffff', fontWeight: 600 }}>#{tag}</span>)}
             </div>
           )}
         </div>

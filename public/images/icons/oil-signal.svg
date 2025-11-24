@@ -1,0 +1,54 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="oilGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE66D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFB800;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#FFE66D;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#FFB800;stop-opacity:0" />
+    </radialGradient>
+    <filter id="oilShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="85" fill="url(#oilGradient)" filter="url(#oilShadow)"/>
+  
+  <!-- Outer glow -->
+  <circle cx="100" cy="100" r="70" fill="url(#starGlow)" opacity="0.6"/>
+  
+  <!-- Main star shape with 3D effect -->
+  <path d="M 100 30 L 115 75 L 165 75 L 125 105 L 140 150 L 100 120 L 60 150 L 75 105 L 35 75 L 85 75 Z" 
+        fill="#FFFFFF" 
+        filter="url(#oilShadow)"/>
+  
+  <!-- Inner star for depth -->
+  <path d="M 100 50 L 110 80 L 140 80 L 115 95 L 125 125 L 100 105 L 75 125 L 85 95 L 60 80 L 90 80 Z" 
+        fill="url(#oilGradient)" 
+        opacity="0.7"/>
+  
+  <!-- Highlight on top -->
+  <ellipse cx="100" cy="55" rx="15" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  
+  <!-- Signal waves -->
+  <circle cx="100" cy="100" r="40" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.3" filter="url(#glow)"/>
+  <circle cx="100" cy="100" r="55" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.2" filter="url(#glow)"/>
+</svg>

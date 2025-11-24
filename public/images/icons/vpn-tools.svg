@@ -1,0 +1,61 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0E0E0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#B0B0B0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="toolHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#FFFFFF;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.6" />
+    </linearGradient>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5C6BC0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3949AB;stop-opacity:1" />
+    </linearGradient>
+    <filter id="toolShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="2" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="85" fill="url(#bgGradient)" filter="url(#toolShadow)"/>
+  
+  <!-- Wrench (left tool) -->
+  <g filter="url(#toolShadow)">
+    <!-- Wrench handle -->
+    <rect x="50" y="80" width="70" height="18" rx="9" fill="url(#metalGradient)" transform="rotate(-45 85 89)"/>
+    <rect x="50" y="80" width="70" height="6" rx="3" fill="url(#toolHighlight)" transform="rotate(-45 85 89)"/>
+    
+    <!-- Wrench head -->
+    <circle cx="115" cy="58" r="12" fill="url(#metalGradient)"/>
+    <circle cx="115" cy="58" r="7" fill="#3949AB"/>
+    <circle cx="115" cy="55" r="4" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+  
+  <!-- Screwdriver (right tool) -->
+  <g filter="url(#toolShadow)">
+    <!-- Screwdriver handle -->
+    <rect x="95" y="50" width="15" height="45" rx="7" fill="#FF6B6B" transform="rotate(45 102.5 72.5)"/>
+    <ellipse cx="102.5" cy="55" rx="8" ry="5" fill="#FF8787" transform="rotate(45 102.5 55)"/>
+    
+    <!-- Screwdriver shaft -->
+    <rect x="99" y="95" width="7" height="55" rx="2" fill="url(#metalGradient)" transform="rotate(45 102.5 122.5)"/>
+    <rect x="99" y="95" width="7" height="15" rx="2" fill="url(#toolHighlight)" transform="rotate(45 102.5 102.5)"/>
+    
+    <!-- Screwdriver tip -->
+    <polygon points="138,145 145,138 148,141 141,148" fill="#606060"/>
+  </g>
+  
+  <!-- Center glow where tools cross -->
+  <circle cx="100" cy="100" r="20" fill="#FFFFFF" opacity="0.2"/>
+</svg>
