@@ -1,0 +1,25 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cameraGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(69,69,69);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(97,97,97);stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow5">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="4"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="28" y="38" width="44" height="30" rx="4" fill="url(#cameraGrad)" filter="url(#shadow5)"/>
+  <rect x="42" y="32" width="16" height="6" rx="2" fill="url(#cameraGrad)"/>
+  <circle cx="50" cy="53" r="10" fill="rgba(100,100,100,0.4)"/>
+  <circle cx="50" cy="53" r="7" fill="rgba(50,50,50,0.6)"/>
+  <circle cx="48" cy="51" r="2" fill="rgba(255,255,255,0.5)"/>
+  <rect x="62" y="42" width="6" height="4" rx="2" fill="rgba(255,107,107,0.8)"/>
+</svg>

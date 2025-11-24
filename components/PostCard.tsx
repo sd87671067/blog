@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 interface Post {
   slug: string
@@ -53,19 +53,15 @@ const cardStyles = [
   },
 ]
 
-const getCategoryIcon = (category: string): string => {
-  const iconMap: { [key: string]: string } = {
-    '原油信号分析': '/images/icons/oil-signal.svg',
-    '自建梯子': '/images/icons/vpn-tools.svg',
-    '斐波那契均三条移动平均线': '/images/icons/technical-analysis.svg',
-    '从零开始の外汇': '/images/icons/forex-trading.svg',
-    'MT5交易软件安装指南': '/images/icons/trading-strategy.svg',
-    '外汇交易': '/images/icons/forex-trading.svg',
-    '技术分析': '/images/icons/technical-analysis.svg',
-    '交易策略': '/images/icons/trading-strategy.svg',
-  }
-  return iconMap[category] || '/images/icons/default.svg'
-}
+// 装饰图标池
+const decorationIcons = [
+  '/images/decorations/balloon.svg',
+  '/images/decorations/book.svg',
+  '/images/decorations/plane.svg',
+  '/images/decorations/music.svg',
+  '/images/decorations/camera.svg',
+  '/images/decorations/rocket.svg',
+]
 
 export default function PostCard({ post, index }: { post: Post; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -73,6 +69,11 @@ export default function PostCard({ post, index }: { post: Post; index: number })
   const [isClicked, setIsClicked] = useState(false)
   const styleIndex = index % cardStyles.length
   const cardStyle = cardStyles[styleIndex]
+  
+  // 为每个卡片随机选择一个装饰图标（使用 useMemo 确保不会每次渲染都改变）
+  const decorationIcon = useMemo(() => {
+    return decorationIcons[index % decorationIcons.length]
+  }, [index])
 
   const handleClick = (e: React.MouseEvent) => {
     setIsClicked(true)
@@ -147,24 +148,24 @@ export default function PostCard({ post, index }: { post: Post; index: number })
         {/* 图案层 */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
         
-        {/* 纯图标 - 移除装饰方框 */}
+        {/* 装饰图标 - 随机显示，无旋转动画 */}
         <div style={{
           position: 'absolute',
           top: '24px',
           right: '24px',
-          width: '80px',
-          height: '80px',
+          width: '90px',
+          height: '90px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transform: isHovered ? 'rotate(8deg) scale(1.1)' : 'rotate(0deg) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
           <Image 
-            src={getCategoryIcon(post.category)} 
-            alt={post.category} 
-            width={80} 
-            height={80} 
+            src={decorationIcon}
+            alt="decoration" 
+            width={90} 
+            height={90} 
             style={{ 
               filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2))',
             }} 
@@ -173,7 +174,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
         </div>
 
         {/* 内容层 */}
-        <div style={{ padding: '28px', paddingRight: '120px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: '28px', paddingRight: '130px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'inline-block', padding: '8px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(10px)', color: '#ffffff', fontSize: '13px', fontWeight: 700, marginBottom: '16px', letterSpacing: '0.5px', width: 'fit-content', textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
             {post.category}
           </div>
