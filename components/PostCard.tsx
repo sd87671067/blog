@@ -76,7 +76,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
 
   const handleClick = (e: React.MouseEvent) => {
     setIsClicked(true)
-    // 更快的跳转速度：250ms
     setTimeout(() => {
       window.location.href = `/posts/${post.slug}`
     }, 250)
@@ -142,21 +141,39 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           }
         `}</style>
         
+        {/* 渐变背景层 */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.background, opacity: 1 }} />
+        
+        {/* 图案层 */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
         
+        {/* 纯图标 - 移除装饰方框 */}
         <div style={{
-          position: 'absolute', top: '24px', right: '24px', width: '100px', height: '100px', borderRadius: '24px',
-          background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transform: isHovered ? 'rotate(8deg) scale(1.08)' : 'rotate(0deg) scale(1)', transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+          position: 'absolute',
+          top: '24px',
+          right: '24px',
+          width: '80px',
+          height: '80px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: isHovered ? 'rotate(8deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }}>
-          <div style={{ transform: isHovered ? 'rotate(-8deg) scale(1.1)' : 'rotate(0deg) scale(1)', transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)', width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Image src={getCategoryIcon(post.category)} alt={post.category} width={64} height={64} style={{ filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))' }} priority={index < 3} />
-          </div>
+          <Image 
+            src={getCategoryIcon(post.category)} 
+            alt={post.category} 
+            width={80} 
+            height={80} 
+            style={{ 
+              filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2))',
+            }} 
+            priority={index < 3} 
+          />
         </div>
 
-        <div style={{ padding: '28px', paddingRight: '140px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* 内容层 */}
+        <div style={{ padding: '28px', paddingRight: '120px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'inline-block', padding: '8px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(10px)', color: '#ffffff', fontSize: '13px', fontWeight: 700, marginBottom: '16px', letterSpacing: '0.5px', width: 'fit-content', textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
             {post.category}
           </div>
