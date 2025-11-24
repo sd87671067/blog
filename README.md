@@ -419,9 +419,9 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ## 📞 联系方式
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
-- 博客: https://yourdomain.com
+- GitHub: [@sd87671067](https://github.com/yourusername)
+- Email: cwsdfd@icloud.com
+- 博客: https://dlmn.lol
 
 ---
 
