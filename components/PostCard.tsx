@@ -70,24 +70,52 @@ const getCategoryIcon = (category: string): string => {
 export default function PostCard({ post, index }: { post: Post; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
   const styleIndex = index % cardStyles.length
   const cardStyle = cardStyles[styleIndex]
 
+  const handleClick = (e: React.MouseEvent) => {
+    setIsClicked(true)
+    // 更快的跳转速度：250ms
+    setTimeout(() => {
+      window.location.href = `/posts/${post.slug}`
+    }, 250)
+    e.preventDefault()
+  }
+
   return (
-    <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }}>
+    <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }} onClick={handleClick}>
       <article
         style={{
           borderRadius: '20px',
           overflow: 'hidden',
-          boxShadow: isPressed ? '0 4px 12px rgba(0, 0, 0, 0.15)' : isHovered ? '0 24px 48px rgba(0, 0, 0, 0.2)' : '0 8px 16px rgba(0, 0, 0, 0.1)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: isPressed ? 'scale(0.96)' : isHovered ? 'translateY(-12px) scale(1.03)' : 'translateY(0) scale(1)',
-          animation: `slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s backwards`,
+          boxShadow: isClicked 
+            ? '0 40px 80px rgba(0, 0, 0, 0.3)'
+            : isPressed 
+              ? '0 4px 12px rgba(0, 0, 0, 0.15)' 
+              : isHovered 
+                ? '0 24px 48px rgba(0, 0, 0, 0.2)' 
+                : '0 8px 16px rgba(0, 0, 0, 0.1)',
+          transition: isClicked 
+            ? 'all 0.25s cubic-bezier(0.32, 0.72, 0, 1)'
+            : 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: isClicked
+            ? 'scale(1.08) translateY(-15px)'
+            : isPressed 
+              ? 'scale(0.96)' 
+              : isHovered 
+                ? 'translateY(-12px) scale(1.03)' 
+                : 'translateY(0) scale(1)',
+          animation: isClicked 
+            ? 'cardExpandFast 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards'
+            : `slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s backwards`,
           cursor: 'pointer',
           position: 'relative',
           minHeight: '280px',
           display: 'flex',
           flexDirection: 'column',
+          opacity: isClicked ? 0 : 1,
+          zIndex: isClicked ? 999 : 1,
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setIsPressed(false) }}
@@ -101,15 +129,22 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
           }
+
+          @keyframes cardExpandFast {
+            0% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            100% {
+              transform: scale(1.1);
+              opacity: 0;
+            }
+          }
         `}</style>
         
-        {/* 渐变背景层 */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.background, opacity: 1 }} />
-        
-        {/* 图案层 */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
         
-        {/* App Store 风格的图标装饰 */}
         <div style={{
           position: 'absolute', top: '24px', right: '24px', width: '100px', height: '100px', borderRadius: '24px',
           background: 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -121,7 +156,6 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           </div>
         </div>
 
-        {/* 内容层 */}
         <div style={{ padding: '28px', paddingRight: '140px', position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'inline-block', padding: '8px 16px', borderRadius: '12px', backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(10px)', color: '#ffffff', fontSize: '13px', fontWeight: 700, marginBottom: '16px', letterSpacing: '0.5px', width: 'fit-content', textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
             {post.category}

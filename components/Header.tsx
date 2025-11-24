@@ -40,7 +40,6 @@ export default function Header() {
       setSearchOpen(true)
       setMobileMenuOpen(false)
     } else {
-      // 添加 iOS 风格的页面转场效果
       setMobileMenuOpen(false)
     }
   }
@@ -200,7 +199,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 下拉菜单 - Apple Store 风格 */}
+      {/* 下拉菜单 */}
       <div style={{
         position: 'fixed',
         top: '52px',
@@ -295,37 +294,7 @@ export default function Header() {
           }
         }
 
-        /* iOS 风格的页面转场动画 */
-        @keyframes pageSlideIn {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes pageFadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.98);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        /* 为页面内容添加 iOS 风格的进入动画 */
-        main {
-          animation: pageFadeIn 0.5s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-
-        main > * {
-          animation: pageSlideIn 0.6s cubic-bezier(0.32, 0.72, 0, 1);
-        }
+        /* 移除页面进入时的抖动动画 */
       `}</style>
     </>
   )
