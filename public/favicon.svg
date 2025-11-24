@@ -1,0 +1,49 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffed4e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景圆角矩形 -->
+  <rect width="512" height="512" rx="100" fill="url(#bgGrad)"/>
+  
+  <!-- K线图表趋势线 -->
+  <path d="M 100 350 L 180 300 L 260 320 L 340 240 L 420 200" 
+        stroke="url(#lineGrad)" 
+        stroke-width="16" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        opacity="0.6"/>
+  
+  <!-- 上升箭头 -->
+  <path d="M 420 200 L 400 220 M 420 200 L 400 180" 
+        stroke="url(#lineGrad)" 
+        stroke-width="16" 
+        stroke-linecap="round" 
+        opacity="0.6"/>
+  
+  <!-- EX 字母（Exness/Exchange 的缩写） -->
+  <text x="256" y="200" 
+        font-family="Arial, sans-serif" 
+        font-size="160" 
+        font-weight="bold" 
+        fill="white" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        opacity="0.95">EX</text>
+  
+  <!-- 底部小文字 -->
+  <text x="256" y="450" 
+        font-family="Arial, sans-serif" 
+        font-size="40" 
+        font-weight="600" 
+        fill="rgba(255,255,255,0.7)" 
+        text-anchor="middle">FOREX</text>
+</svg>

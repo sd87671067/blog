@@ -13,6 +13,17 @@ export const metadata: Metadata = {
   authors: [{ name: '孤独的交易员' }],
   creator: '孤独的交易员',
   metadataBase: new URL('https://dlmn.lol'),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
@@ -40,11 +51,10 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="color-scheme" content="light dark" />
-        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#667eea" />
       </head>
       <body>
         <div className="flex min-h-screen flex-col">
