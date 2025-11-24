@@ -55,7 +55,8 @@ export default function Footer() {
     <footer style={{
       borderTop: '1px solid var(--border-color)',
       backgroundColor: 'var(--footer-bg)',
-      padding: '32px 20px 24px',
+      padding: '48px 20px 32px',
+      marginTop: '80px',
     }}>
       <div style={{
         maxWidth: '1200px',
@@ -63,12 +64,12 @@ export default function Footer() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '20px',
+        gap: '32px',
       }}>
         {/* 社交图标 - 横向排列 */}
         <div style={{
           display: 'flex',
-          gap: '32px',
+          gap: '24px',
           flexWrap: 'wrap',
           justifyContent: 'center',
         }}>
@@ -84,7 +85,7 @@ export default function Footer() {
                 justifyContent: 'center',
                 width: '48px',
                 height: '48px',
-                borderRadius: '50%',
+                borderRadius: '12px',
                 backgroundColor: 'var(--icon-bg)',
                 color: 'var(--text-secondary)',
                 textDecoration: 'none',
@@ -109,50 +110,45 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* 格言和跟随说明 - 合并显示 */}
+        {/* 温馨提示文字 */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '12px',
+          gap: '16px',
         }}>
-          {/* 格言 */}
-          <div style={{
-            fontSize: '15px',
+          <p style={{
+            fontSize: '16px',
             color: 'var(--text-secondary)',
             textAlign: 'center',
-            fontStyle: 'italic',
-            maxWidth: '600px',
-            lineHeight: 1.5,
-            padding: '0 20px',
+            margin: 0,
+            lineHeight: 1.6,
+            fontWeight: 500,
           }}>
-            "技术可以让你后退一步研究市场，避免被负面情绪影响"
-          </div>
-
-          {/* 跟随说明 */}
-          <div style={{
-            fontSize: '15px',
+            技术交易可以减少负面情绪的影响
+          </p>
+          <p style={{
+            fontSize: '16px',
             color: 'var(--text-secondary)',
             textAlign: 'center',
-            fontStyle: 'italic',
-            maxWidth: '600px',
-            lineHeight: 1.5,
-            padding: '0 20px',
+            margin: 0,
+            lineHeight: 1.6,
+            fontWeight: 500,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '6px',
+            gap: '8px',
             flexWrap: 'wrap',
           }}>
-            <span>点击上方的第三个和第四个按钮，都可以跟随我交易</span>
+            <span>上方有个按钮可以跟单，跟单需谨慎</span>
             <span style={{
               display: 'inline-block',
-              color: '#FF3B30',
-              animation: 'heartbeat 1.2s ease-in-out infinite',
+              fontSize: '20px',
+              animation: 'heartbeat 1.5s ease-in-out infinite',
             }}>
               ❤️
             </span>
-          </div>
+          </p>
         </div>
 
         {/* 版权信息 */}
@@ -160,22 +156,32 @@ export default function Footer() {
           fontSize: '13px',
           color: 'var(--text-tertiary)',
           textAlign: 'center',
-          marginTop: '8px',
+          paddingTop: '24px',
+          borderTop: '1px solid var(--border-color)',
+          width: '100%',
         }}>
-          <p style={{ margin: 0 }}>© {new Date().getFullYear()} by 孤独的交易员. All rights reserved.</p>
+          <p style={{ margin: 0 }}>
+            © {new Date().getFullYear()} by 孤独的交易员. All rights reserved.
+          </p>
         </div>
       </div>
 
       {/* CSS 动画 */}
       <style jsx>{`
         @keyframes heartbeat {
-          0%, 100% {
+          0% {
             transform: scale(1);
           }
-          10%, 30% {
-            transform: scale(1.1);
+          14% {
+            transform: scale(1.3);
           }
-          20%, 40% {
+          28% {
+            transform: scale(1);
+          }
+          42% {
+            transform: scale(1.3);
+          }
+          70% {
             transform: scale(1);
           }
         }
