@@ -53,51 +53,6 @@ const cardStyles = [
   },
 ]
 
-// 根据分类返回对应的图标 SVG
-const getCategoryIcon = (category: string): React.ReactNode => {
-  const iconMap: { [key: string]: React.ReactNode } = {
-    '外汇交易': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 17L9 11L13 15L21 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M17 7H21V11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    '技术分析': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <rect x="14" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '原油信号分析': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L15 8H21L16 13L18 20L12 16L6 20L8 13L3 8H9L12 2Z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '自建梯子': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      </svg>
-    ),
-    '交易策略': (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L12 8M12 8L9 11M12 8L15 11" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-        <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-        <path d="M12 16L12 22M12 16L9 13M12 16L15 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    ),
-  }
-
-  return iconMap[category] || (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="white" strokeWidth="2" fill="rgba(255,255,255,0.2)"/>
-      <path d="M14 2v6h6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M12 18v-6M9 15l3 3 3-3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-
 export default function PostCard({ post, index }: { post: Post; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
@@ -175,61 +130,35 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           opacity: 1,
         }} />
 
-        {/* App Store 风格的图标装饰 */}
+        {/* 装饰性几何图案 */}
         <div style={{
           position: 'absolute',
-          top: '24px',
-          right: '24px',
-          width: '100px',
-          height: '100px',
-          borderRadius: '24px',
-          background: 'rgba(255, 255, 255, 0.18)',
-          backdropFilter: 'blur(12px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: isHovered ? 'rotate(8deg) scale(1.08)' : 'rotate(0deg) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        }}>
-          <div style={{
-            transform: isHovered ? 'rotate(-8deg) scale(1.1)' : 'rotate(0deg) scale(1)',
-            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          }}>
-            {getCategoryIcon(post.category)}
-          </div>
-        </div>
-
-        {/* 装饰性小圆点 - 左下角 */}
-        <div style={{
-          position: 'absolute',
-          bottom: '100px',
-          left: '30px',
-          width: '50px',
-          height: '50px',
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.12)',
-          transform: isHovered ? 'scale(1.3)' : 'scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          top: '20px',
+          right: '20px',
+          width: '80px',
+          height: '80px',
+          borderRadius: '20px',
+          background: 'rgba(255, 255, 255, 0.15)',
+          transform: isHovered ? 'rotate(15deg) scale(1.1)' : 'rotate(0deg) scale(1)',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          backdropFilter: 'blur(10px)',
         }} />
 
-        {/* 装饰性小方块 - 右下角 */}
         <div style={{
           position: 'absolute',
           bottom: '30px',
           right: '30px',
-          width: '45px',
-          height: '45px',
-          borderRadius: '12px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          transform: isHovered ? 'rotate(45deg) scale(1.2)' : 'rotate(0deg) scale(1)',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.12)',
+          transform: isHovered ? 'scale(1.2)' : 'scale(1)',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }} />
 
         {/* 内容层 */}
         <div style={{ 
           padding: '28px',
-          paddingRight: '140px',
           position: 'relative',
           zIndex: 1,
           flex: 1,
