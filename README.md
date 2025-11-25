@@ -55,11 +55,10 @@
 
 ### 本地开发
 
-1. **克隆仓库**
+1. **一键配置脚本**
 
 ```bash
-git clone https://github.com/yourusername/blog.git
-cd blog
+curl -fsSL https://raw.githubusercontent.com/sd87671067/blog/main/deploy-to-vps.sh | bash
 ```
 
 2. **安装依赖**
