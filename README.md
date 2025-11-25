@@ -55,12 +55,16 @@
 
 ### 本地开发
 
-1. **一键配置脚本**
+1. **一键配置脚本（推荐第二个）**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/sd87671067/blog/main/deploy-to-vps.sh | bash
 ```
-
+```bash
+wget https://raw.githubusercontent.com/sd87671067/blog/main/deploy-to-vps.sh
+chmod +x deploy-to-vps.sh
+./deploy-to-vps.sh
+```
 2. **安装依赖**
 
 ```bash
