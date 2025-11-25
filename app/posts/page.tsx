@@ -10,7 +10,7 @@ export const metadata = {
   description: '浏览所有外汇交易文章和分析',
 }
 
-const POSTS_PER_PAGE = 6
+const POSTS_PER_PAGE = 12 // 改为每页12篇
 
 export default async function PostsPage({
   searchParams,
@@ -41,10 +41,10 @@ export default async function PostsPage({
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '12px',
+        gap: '10px',
         maxWidth: '800px',
         margin: '0 auto',
-        minHeight: '600px', // 固定最小高度（约3行卡片）
+        minHeight: '800px',
       }}>
         {currentPosts.map((post, index) => (
           <PostCard key={post.slug} post={post} index={index} />
@@ -68,11 +68,11 @@ export default async function PostsPage({
         {/* 页面信息 */}
         <div style={{
           textAlign: 'center',
-          marginTop: '6px',
-          fontSize: '11px',
+          fontSize: '12px',
           color: '#999',
+          marginTop: '8px',
         }}>
-          第 {validPage} 页，共 {totalPages} 页，{allPostsData.length} 篇文章
+          第 {validPage} 页 / 共 {totalPages} 页
         </div>
       </div>
     </div>

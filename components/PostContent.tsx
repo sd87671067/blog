@@ -11,7 +11,9 @@ export default function PostContent({ content }: { content: string }) {
     const wrappers = ref.current.querySelectorAll('.code-block-wrapper')
     
     wrappers.forEach((wrapper) => {
-      const lang = wrapper.getAttribute('data-lang') || 'bash'
+      // 如果已经处理过，跳过
+      if (wrapper.querySelector('.github-code-block')) return
+      
       const pre = wrapper.querySelector('pre')
       const code = wrapper.querySelector('code')
       
@@ -22,119 +24,104 @@ export default function PostContent({ content }: { content: string }) {
       // 清空 wrapper
       wrapper.innerHTML = ''
 
-      // 创建完整结构
+      // 创建单层代码块容器
       const container = document.createElement('div')
+      container.className = 'github-code-block'
       container.style.cssText = `
-        margin: 24px 0;
-        border-radius: 12px;
-        background: #0d1117;
-        border: 1px solid #30363d;
+        position: relative;
+        margin: 16px 0;
+        border-radius: 6px;
+        background: var(--code-bg);
+        border: 1px solid var(--code-border);
         overflow: hidden;
       `
 
-      // 头部
-      const header = document.createElement('div')
-      header.style.cssText = `
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px;
-        background: #161b22;
-        border-bottom: 1px solid #30363d;
-      `
-
-      const langSpan = document.createElement('span')
-      langSpan.textContent = lang
-      langSpan.style.cssText = `
-        color: #8b949e;
-        font-size: 13px;
-        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-        font-weight: 500;
-      `
-
+      // 复制按钮 - 右上角悬浮
       const copyBtn = document.createElement('button')
+      copyBtn.className = 'copy-btn'
       copyBtn.innerHTML = `
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-          <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
+          <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
         </svg>
-        <span style="margin-left: 6px;">复制</span>
       `
       copyBtn.style.cssText = `
+        position: absolute;
+        top: 8px;
+        right: 8px;
         display: flex;
         align-items: center;
-        gap: 6px;
-        background: #21262d;
-        color: #c9d1d9;
+        justify-content: center;
+        background: var(--code-btn-bg);
+        color: var(--code-icon);
         border: none;
-        padding: 5px 12px;
+        padding: 6px;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 12px;
-        font-weight: 500;
-        transition: background 0.2s;
+        transition: all 0.15s ease;
+        z-index: 10;
       `
 
       copyBtn.onmouseenter = () => {
-        copyBtn.style.background = '#30363d'
+        copyBtn.style.background = 'var(--code-btn-hover)'
+        copyBtn.style.color = 'var(--code-text)'
       }
       copyBtn.onmouseleave = () => {
-        copyBtn.style.background = '#21262d'
+        copyBtn.style.background = 'var(--code-btn-bg)'
+        copyBtn.style.color = 'var(--code-icon)'
       }
 
       copyBtn.onclick = async () => {
         try {
           await navigator.clipboard.writeText(codeText)
           copyBtn.innerHTML = `
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
             </svg>
-            <span style="margin-left: 6px;">已复制</span>
           `
-          copyBtn.style.background = '#238636'
-          copyBtn.style.color = '#fff'
+          copyBtn.style.color = 'var(--code-success)'
 
           setTimeout(() => {
             copyBtn.innerHTML = `
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path>
+                <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
               </svg>
-              <span style="margin-left: 6px;">复制</span>
             `
-            copyBtn.style.background = '#21262d'
-            copyBtn.style.color = '#c9d1d9'
+            copyBtn.style.color = 'var(--code-icon)'
           }, 2000)
         } catch (err) {
           console.error('Failed to copy:', err)
         }
       }
 
-      header.appendChild(langSpan)
-      header.appendChild(copyBtn)
-
-      // 代码区域
+      // 代码区域 - 单层
       const codeContainer = document.createElement('pre')
       codeContainer.style.cssText = `
         margin: 0;
         padding: 16px;
-        background: #0d1117;
+        padding-right: 50px;
+        background: transparent;
         overflow-x: auto;
-        font-size: 14px;
-        line-height: 1.5;
+        font-size: 13px;
+        line-height: 1.45;
       `
 
       const codeElement = document.createElement('code')
       codeElement.textContent = codeText
       codeElement.style.cssText = `
-        color: #c9d1d9;
-        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
-        font-size: 14px;
-        line-height: 1.5;
+        color: var(--code-text);
+        font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+        font-size: 13px;
+        line-height: 1.45;
+        tab-size: 2;
+        background: transparent;
+        padding: 0;
+        border: none;
       `
 
       codeContainer.appendChild(codeElement)
-      container.appendChild(header)
+      container.appendChild(copyBtn)
       container.appendChild(codeContainer)
       wrapper.appendChild(container)
     })
@@ -145,8 +132,9 @@ export default function PostContent({ content }: { content: string }) {
       ref={ref}
       style={{
         fontSize: '17px',
-        lineHeight: '1.7',
+        lineHeight: '1.6',
         color: 'var(--text-primary)',
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif",
       }}
       dangerouslySetInnerHTML={{ __html: content }}
     />

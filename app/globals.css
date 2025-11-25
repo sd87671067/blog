@@ -1,29 +1,29 @@
-/* SF Pro 和 SF Mono 字体加载 - Apple 官方字体 */
+/* SF Pro 字体 - Apple 风格 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Apple 风格的配色系统 */
+/* Apple 官网配色系统 */
 :root {
   color-scheme: light;
   
-  /* Apple 官网背景色 */
-  --background: #fbfbfd;
+  /* Apple 官网背景色 - 纯白 */
+  --background: #ffffff;
   --foreground: #1d1d1f;
   
   /* 卡片背景 */
-  --card-bg: #ffffff;
-  --card-hover-bg: #f5f5f7;
+  --card-bg: #f5f5f7;
+  --card-hover-bg: #e8e8ed;
   
-  /* 文字颜色层级 */
+  /* Apple 官网文字颜色层级 */
   --text-primary: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
+  --text-secondary: #86868b;
+  --text-tertiary: #6e6e73;
   
   /* Apple 蓝色 */
-  --primary: #0071e3;
+  --primary: #0066cc;
   --primary-hover: #0077ed;
   
   /* 边框颜色 */
@@ -34,22 +34,28 @@
   --tag-bg: #f5f5f7;
   --tag-text: #1d1d1f;
   
-  /* 按钮状态 */
-  --button-disabled-bg: #f5f5f7;
-  --button-disabled-text: #86868b;
+  /* 代码块 - GitHub 亮色风格 */
+  --code-bg: #f6f8fa;
+  --code-border: #d0d7de;
+  --code-text: #1f2328;
+  --code-icon: #57606a;
+  --code-btn-bg: rgba(0, 0, 0, 0.05);
+  --code-btn-hover: rgba(0, 0, 0, 0.1);
+  --code-success: #1a7f37;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
     
-    /* Apple 暗色背景 */
+    /* Apple 暗色背景 - 纯黑 */
     --background: #000000;
     --foreground: #f5f5f7;
     
-    --card-bg: #1d1d1f;
-    --card-hover-bg: #2d2d2f;
+    --card-bg: #1c1c1e;
+    --card-hover-bg: #2c2c2e;
     
+    /* Apple 暗色文字 */
     --text-primary: #f5f5f7;
     --text-secondary: #a1a1a6;
     --text-tertiary: #86868b;
@@ -57,14 +63,20 @@
     --primary: #2997ff;
     --primary-hover: #409cff;
     
-    --border-color: #424245;
-    --border-hover: #5e5e62;
+    --border-color: #38383a;
+    --border-hover: #48484a;
     
-    --tag-bg: #1d1d1f;
+    --tag-bg: #1c1c1e;
     --tag-text: #f5f5f7;
     
-    --button-disabled-bg: #1d1d1f;
-    --button-disabled-text: #86868b;
+    /* 代码块 - GitHub 暗色风格 */
+    --code-bg: #161b22;
+    --code-border: #30363d;
+    --code-text: #e6edf3;
+    --code-icon: #7d8590;
+    --code-btn-bg: rgba(255, 255, 255, 0.05);
+    --code-btn-hover: rgba(255, 255, 255, 0.1);
+    --code-success: #3fb950;
   }
 }
 
@@ -83,10 +95,9 @@ body {
 }
 
 body {
-  /* Apple 官方字体栈 - SF Pro 替代方案 */
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 
-    'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 
-    'Helvetica', 'Arial', sans-serif;
+  /* Apple 官方字体栈 */
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 
+    'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-size: 17px;
   line-height: 1.47059;
   font-weight: 400;
@@ -98,7 +109,7 @@ body {
 
 /* Apple 标题样式 */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   letter-spacing: -0.003em;
   color: var(--text-primary);
@@ -119,15 +130,15 @@ h2 {
 }
 
 h3 {
-  font-size: 32px;
-  line-height: 1.125;
+  font-size: 28px;
+  line-height: 1.14286;
   font-weight: 600;
-  letter-spacing: 0.004em;
+  letter-spacing: 0.007em;
 }
 
-/* 正文样式 */
+/* 正文样式 - Apple 风格 */
 p, li, span {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
   color: var(--text-secondary);
   line-height: 1.47059;
   font-weight: 400;
@@ -143,13 +154,13 @@ a {
 
 a:hover {
   color: var(--primary-hover);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* 滚动条 - Apple 风格 */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -158,27 +169,22 @@ a:hover {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  border-radius: 4px;
 }
 
 @media (prefers-color-scheme: dark) {
   ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
-    background-clip: padding-box;
   }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-  background-clip: padding-box;
+  background: rgba(0, 0, 0, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-    background-clip: padding-box;
+    background: rgba(255, 255, 255, 0.35);
   }
 }
 
@@ -193,36 +199,39 @@ a:hover {
   color: var(--text-primary);
 }
 
-/* 代码块 - Apple 风格 */
+/* 行内代码 - GitHub 风格 */
 code {
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Courier New', monospace;
-  background: var(--card-bg);
-  padding: 3px 6px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
   border-radius: 6px;
-  font-size: 0.94em;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  font-size: 85%;
+  color: var(--code-text);
+  border: none;
 }
 
+/* 代码块 - GitHub 风格 */
 pre {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 20px;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 6px;
+  padding: 16px;
   overflow-x: auto;
-  margin: 20px 0;
+  margin: 16px 0;
 }
 
 pre code {
   background: transparent;
   padding: 0;
   border: none;
-  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--code-text);
 }
 
 /* 输入框 - Apple 风格 */
 input, textarea {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   font-size: 17px;
   color: var(--text-primary);
   background: var(--card-bg);
@@ -240,7 +249,7 @@ input:focus, textarea:focus {
 
 /* 按钮 - Apple 风格 */
 button {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -288,7 +297,7 @@ img {
 
 /* Markdown 内容 - Apple 风格 */
 .markdown-content {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   line-height: 1.6;
   color: var(--text-secondary);
 }
@@ -296,7 +305,7 @@ img {
 .markdown-content h1,
 .markdown-content h2,
 .markdown-content h3 {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   color: var(--text-primary);
   margin-top: 40px;
   margin-bottom: 20px;

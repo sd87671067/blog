@@ -73,7 +73,7 @@ export default function PostCard({ post, index }: { post: Post; index: number })
     <Link href={`/posts/${post.slug}`} style={{ textDecoration: 'none' }} onClick={handleClick} prefetch={false}>
       <article
         style={{
-          borderRadius: '16px',
+          borderRadius: '14px',
           overflow: 'hidden',
           boxShadow: isClicked 
             ? '0 20px 40px rgba(0, 0, 0, 0.2)'
@@ -90,16 +90,16 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             : isPressed 
               ? 'scale(0.98)' 
               : isHovered 
-                ? 'translateY(-6px) scale(1.02)' 
+                ? 'translateY(-4px) scale(1.02)' 
                 : 'translateY(0) scale(1)',
           animation: isClicked 
             ? 'cardExpandFast 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards'
-            : `slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s backwards`,
+            : `slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s backwards`,
           cursor: 'pointer',
           position: 'relative',
           width: '100%',
           height: '0',
-          paddingBottom: '87%',
+          paddingBottom: '70%',
           display: 'block',
           opacity: isClicked ? 0 : 1,
           zIndex: isClicked ? 999 : 1,
@@ -142,16 +142,17 @@ export default function PostCard({ post, index }: { post: Post; index: number })
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.background, opacity: 1 }} />
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cardStyle.pattern, opacity: 1 }} />
           
+          {/* 右上角图案 - 放大尺寸 */}
           <div style={{
             position: 'absolute',
-            top: '14px',
-            right: '14px',
-            width: '60px',
-            height: '60px',
+            top: '10px',
+            right: '10px',
+            width: '80px',
+            height: '80px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+            transform: isHovered ? 'scale(1.1)' : 'scale(1)',
             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           }}>
             <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -159,20 +160,20 @@ export default function PostCard({ post, index }: { post: Post; index: number })
                 src={decorationIcon}
                 alt="decoration" 
                 fill
-                sizes="60px"
+                sizes="80px"
                 style={{ 
                   objectFit: 'contain',
-                  filter: 'drop-shadow(0 3px 8px rgba(0, 0, 0, 0.15))',
+                  filter: 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18))',
                 }}
-                loading={index < 4 ? 'eager' : 'lazy'}
-                priority={index < 2}
+                loading={index < 6 ? 'eager' : 'lazy'}
+                priority={index < 4}
               />
             </div>
           </div>
 
           <div style={{ 
-            padding: '14px', 
-            paddingRight: '80px', 
+            padding: '12px', 
+            paddingRight: '95px',
             position: 'relative', 
             zIndex: 1, 
             flex: 1, 
@@ -183,14 +184,14 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             <div>
               <div style={{ 
                 display: 'inline-block', 
-                padding: '4px 10px', 
-                borderRadius: '8px', 
+                padding: '3px 8px', 
+                borderRadius: '6px', 
                 backgroundColor: 'rgba(255, 255, 255, 0.4)', 
                 backdropFilter: 'blur(8px)', 
                 color: 'rgba(0, 0, 0, 0.7)', 
-                fontSize: '10px', 
+                fontSize: '9px', 
                 fontWeight: 700, 
-                marginBottom: '8px', 
+                marginBottom: '6px', 
                 letterSpacing: '0.2px', 
                 width: 'fit-content',
                 whiteSpace: 'nowrap',
@@ -202,9 +203,9 @@ export default function PostCard({ post, index }: { post: Post; index: number })
               </div>
               
               <h2 style={{ 
-                fontSize: '15px', 
+                fontSize: '13px', 
                 fontWeight: 700, 
-                marginBottom: '6px', 
+                marginBottom: '4px', 
                 color: 'rgba(0, 0, 0, 0.85)', 
                 lineHeight: 1.3, 
                 letterSpacing: '-0.2px', 
@@ -220,14 +221,14 @@ export default function PostCard({ post, index }: { post: Post; index: number })
               {post.description && (
                 <p style={{ 
                   color: 'rgba(0, 0, 0, 0.6)', 
-                  lineHeight: 1.4, 
-                  fontSize: '11px', 
+                  lineHeight: 1.35, 
+                  fontSize: '10px', 
                   display: '-webkit-box', 
                   WebkitLineClamp: 2, 
                   WebkitBoxOrient: 'vertical', 
                   overflow: 'hidden',
                   wordBreak: 'break-word',
-                  marginBottom: '6px',
+                  marginBottom: '4px',
                 }}>
                   {post.description}
                 </p>
@@ -237,8 +238,8 @@ export default function PostCard({ post, index }: { post: Post; index: number })
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              gap: '6px', 
-              fontSize: '10px', 
+              gap: '5px', 
+              fontSize: '9px', 
               color: 'rgba(0, 0, 0, 0.5)', 
               fontWeight: 500,
             }}>

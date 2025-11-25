@@ -7,7 +7,7 @@ export const revalidate = 0
 
 export default async function Home() {
   const allPostsData = await getAllPosts()
-  const recentPosts = allPostsData.slice(0, 6) // 只取前 6 篇
+  const recentPosts = allPostsData.slice(0, 12) // 改为前 12 篇
 
   return (
     <div style={{
@@ -19,7 +19,7 @@ export default async function Home() {
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '12px',
+        gap: '10px',
         maxWidth: '800px',
         margin: '0 auto 6px',
       }}>
