@@ -6,9 +6,18 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+        disallow: ['/api/', '/_next/', '/admin/', '/private/'],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
       },
     ],
     sitemap: 'https://dlmn.lol/sitemap.xml',
+    host: 'https://dlmn.lol',
   }
 }
