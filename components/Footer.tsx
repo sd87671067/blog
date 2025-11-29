@@ -26,7 +26,7 @@ export default function Footer() {
           <SocialIcon href="https://github.com/sd87671067" label="GitHub" icon="github" />
           <SocialIcon href="mailto:cwsdfd@icloud.com" label="Email" icon="email" />
           <SocialIcon href="https://www.mql5.com/zh/signals/2344273?source=Site+Signals+My#!tab=account" label="MQL5" icon="mql5" />
-          <SocialIcon href="https://social-trading.exness.com/strategy/227951424/?utm_source=partners&sharer=trader&_8f4x=1" label="Exness" icon="exness" />
+          <SocialIcon href="https://social-trading.exness.com/strategy/227998119/?utm_source=partners&sharer=trader&_8f4x=1" label="Exness" icon="exness" />
           <SocialIcon href="https://t.me/cyklol" label="Telegram" icon="telegram" />
         </div>
 
