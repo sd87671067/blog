@@ -15,6 +15,11 @@ services:
       - NEXT_PUBLIC_SITE_DESCRIPTION=${NEXT_PUBLIC_SITE_DESCRIPTION:-一个基于 Next.js 的现代化博客系统}
     restart: unless-stopped
 
+    # ⚠️ 内存限制
+      resources:
+        limits:
+          memory: 1G
+
   nginx:
     image: nginx:alpine
     container_name: nginx-proxy
