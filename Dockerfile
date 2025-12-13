@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装依赖
-RUN npm install
+RUN npm ci
 
 # 复制源代码
 COPY . .
@@ -26,6 +26,9 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/content ./content
+
+# 限制 Node 内存，防止内存爆满
+ENV NODE_OPTIONS="--max-old-space-size=512"
 
 # 暴露端口
 EXPOSE 3000
