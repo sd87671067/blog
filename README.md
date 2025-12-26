@@ -65,19 +65,8 @@ wget https://raw.githubusercontent.com/sd87671067/blog/main/deploy-to-vps.sh
 chmod +x deploy-to-vps.sh
 ./deploy-to-vps.sh
 ```
-2. **安装依赖**
 
-```bash
-npm install
-```
-
-3. **启动开发服务器**
-
-```bash
-npm run dev
-```
-
-4. **访问应用**
+2. **访问应用**
 
 打开浏览器访问 [http://localhost:3000](http://localhost:3000)
 
